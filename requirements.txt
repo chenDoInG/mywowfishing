@@ -1,0 +1,16 @@
+cffi==1.15.1
+EasyProcess==1.1
+entrypoint2==1.1
+mss==6.1.0
+numpy==1.23.3
+opencv-python==4.6.0.66
+Pillow==9.2.0
+PyAudio==0.2.12
+pycparser==2.21
+PyMouse==1.0
+pyobjc-core==8.5
+pyobjc-framework-Cocoa==8.5
+pyobjc-framework-Quartz==8.5
+pyscreenshot==3.0
+PyUserInput==0.1.11
+sounddevice==0.4.5
