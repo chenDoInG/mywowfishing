@@ -10,8 +10,6 @@ from pymouse import PyMouse
 from pykeyboard import PyKeyboard
 import pyscreenshot as ImageGrab
 import cv2
-import sounddevice as sd
-import random
 from mic import Recorder
 
 keyboard = PyKeyboard()
@@ -27,9 +25,9 @@ def get_start_point():
 
     screen_size = img.size
 
-    start_point = (screen_size[0] * 0, screen_size[1] * 0.1)
+    start_point = (screen_size[0] / 2 * 0.2, screen_size[1] / 2 * 0.1)
     # in my screen need to divide 2, you can check on your screen. I don't know why, but I'm glad someone could tell me
-    end_point = (screen_size[0] / 2 * 0.4, screen_size[1] / 2 * 0.7)
+    end_point = (screen_size[0] / 2 * 0.8, screen_size[1] / 2 * 0.7)
     print("Screen size is ", str(screen_size))
     return [start_point, end_point]
 
@@ -93,24 +91,35 @@ def waiting_for_bite_util_timeout():
     return record.listen()
 
 
-def fishing():
-    time.sleep(5)
+def fishing(mini_screen):
+    print('start fishing')
+    send_float()
+    screenshot = make_screenshot(mini_screen)
+    float_in_screenshot = find_float(screenshot)
+    print('find float in screenshot', float_in_screenshot)
+    float_in_screen = move_mouse(float_in_screenshot, mini_screen[0])
+
+    if not waiting_for_bite_util_timeout():
+        print('If we didn\' hear anything, lets try again')
+
+    mouse.click(float_in_screen[0], float_in_screen[1], 2)
+    time.sleep(1)
+
+
+def hang_up():
+    time.sleep(10)
     [screen_start_point, screen_end_point] = get_start_point()
     mini_screen = [screen_start_point, screen_end_point]
+    n = 1
     while True:
-        print('start fishing')
-        send_float()
-        screenshot = make_screenshot(mini_screen)
-        float_in_screenshot = find_float(screenshot)
-        print('find float in screenshot', float_in_screenshot)
-        float_in_screen = move_mouse(float_in_screenshot, mini_screen[0])
-
-        if not waiting_for_bite_util_timeout():
-            print('If we didn\' hear anything, lets try again')
-
-        mouse.click(float_in_screen[0], float_in_screen[1], 2)
-        time.sleep(1)
+        fishing(mini_screen)
+        # keyboard.press_key("command")
+        # keyboard.tap_key("Tab", n=n)
+        # keyboard.release_key("command")
+        # n = n % 3 + 1
+        # time.sleep(2)
 
 
+1
 if __name__ == '__main__':
-    fishing()
+    hang_up()

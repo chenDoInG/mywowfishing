@@ -27,3 +27,16 @@
     conda activate py38
     pip install -r requirements.txt
  ```
+
+## Tips
+    如果pip install时提示无法找到portaudio，按下面流程操作
+1. brew install portaudio
+2. brew link portaudio
+3. brew --prefix portaudio
+4. vim ~/.pydistutils.cfg
+```shell
+[build_ext]
+include_dirs=<PATH FROM STEP 3>/include/
+library_dirs=<PATH FROM STEP 3>/lib/
+```
+5. pip install pyaudio
