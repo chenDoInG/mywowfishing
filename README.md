@@ -14,7 +14,7 @@
 4. 安装conda
 5. 安装python环境
 6. 安装python依赖
-7. 调整自己的钓鱼姿态，像![钓鱼姿势](var/fishing.png) 一样，如果是正常钓鱼方式，需要自己改下屏幕截图位置
+7. 调整![钓鱼姿势](var/fishing.png) 和屏幕截图位置，让fishing_session.png截到到图尽量只有鱼漂和水域
 8. 根据自己电脑配置修改mic.py里的CHANNELS,RATE,Threshold,前两个通过![音频设备](var/mic.png)可以查询
 9. 运行
 
