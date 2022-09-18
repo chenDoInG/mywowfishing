@@ -29,7 +29,7 @@
  ```
 
 ## Tips
-    如果pip install时提示无法找到portaudio，按下面流程操作
+  如果pip install时提示无法找到portaudio，按下面流程操作
 1. brew install portaudio
 2. brew link portaudio
 3. brew --prefix portaudio
