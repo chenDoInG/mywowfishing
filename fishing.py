@@ -107,19 +107,30 @@ def fishing(mini_screen):
 
 
 def hang_up():
-    time.sleep(10)
+    time.sleep(3)
     [screen_start_point, screen_end_point] = get_start_point()
     mini_screen = [screen_start_point, screen_end_point]
-    n = 1
+    tab_times = 1
+    num_of_wow_windows = 1
     while True:
         fishing(mini_screen)
-        # keyboard.press_key("command")
-        # keyboard.tap_key("Tab", n=n)
-        # keyboard.release_key("command")
-        # n = n % 3 + 1
-        # time.sleep(2)
+        if num_of_wow_windows > 1:
+            change_window(tab_times)
+            tab_times = tab_times % (num_of_wow_windows - 1) + 1
+        destroy_rubbish()
 
 
-1
+def destroy_rubbish():
+    # you need to install a plugin 'dejunk' and set key ']' to destroy rubbish
+    keyboard.tap_key("]")
+
+
+def change_window(n):
+    keyboard.press_key("command")
+    keyboard.tap_key("Tab", n=n)
+    keyboard.release_key("command")
+    time.sleep(2)
+
+
 if __name__ == '__main__':
     hang_up()
