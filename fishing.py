@@ -111,13 +111,13 @@ def hang_up():
     [screen_start_point, screen_end_point] = get_start_point()
     mini_screen = [screen_start_point, screen_end_point]
     tab_times = 1
-    num_of_wow_windows = 1
+    num_of_wow_windows = 2
     while True:
         fishing(mini_screen)
+        destroy_rubbish()
         if num_of_wow_windows > 1:
             change_window(tab_times)
             tab_times = tab_times % (num_of_wow_windows - 1) + 1
-        destroy_rubbish()
 
 
 def destroy_rubbish():
