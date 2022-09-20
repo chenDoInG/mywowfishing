@@ -114,7 +114,7 @@ def hang_up():
     num_of_wow_windows = 2
     while True:
         fishing(mini_screen)
-        destroy_rubbish()
+        # destroy_rubbish()
         if num_of_wow_windows > 1:
             change_window(tab_times)
             tab_times = tab_times % (num_of_wow_windows - 1) + 1
