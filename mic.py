@@ -7,7 +7,7 @@ import os
 from collections import deque
 from datetime import datetime
 
-Threshold = 50
+Threshold = 70
 
 SHORT_NORMALIZE = (1.0 / 32768.0)
 chunk = 1024
@@ -27,8 +27,8 @@ class Recorder:
     @staticmethod
     def rms(frame):
         count = len(frame) / swidth
-        format = "%dh" % (count)
-        shorts = struct.unpack(format, frame)
+        fmt = "%dh" % count
+        shorts = struct.unpack(fmt, frame)
 
         sum_squares = 0.0
         for sample in shorts:
@@ -50,18 +50,21 @@ class Recorder:
 
     def record(self):
         print('Noise detected, recording beginning')
-        rec = []
-        rec.append(b''.join(self.prev_audio))
+        rec = [b''.join(self.prev_audio)]
         current = time.time()
         end = time.time() + TIMEOUT_LENGTH
 
         while current <= end:
 
-            data = self.stream.read(chunk)
-            if self.rms(data) >= Threshold: end = time.time() + TIMEOUT_LENGTH
-
-            current = time.time()
-            rec.append(data)
+            try:
+                data = self.stream.read(chunk, exception_on_overflow=False)
+                if self.rms(data) >= Threshold:
+                    end = time.time() + TIMEOUT_LENGTH
+                current = time.time()
+                rec.append(data)
+            except Exception as e:
+                print('record sound error!', e)
+                return False
         # self.write(b''.join(rec))
         return True
 
@@ -83,13 +86,14 @@ class Recorder:
         print('Listening beginning')
         stat_time = datetime.now()
         while (datetime.now() - stat_time).seconds < timeout:
-            input = self.stream.read(chunk, exception_on_overflow=False)
-            self.prev_audio.append(input)
-            rms_val = self.rms(input)
+            samples = self.stream.read(chunk, exception_on_overflow=False)
+            self.prev_audio.append(samples)
+            rms_val = self.rms(samples)
             if rms_val > Threshold:
                 return self.record()
 
 
 if __name__ == '__main__':
     record = Recorder()
-    record.listen()
+    while True:
+        record.listen()
